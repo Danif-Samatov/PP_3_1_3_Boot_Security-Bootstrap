@@ -1,32 +1,43 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Моя страница</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <th:block th:replace="fragments/header :: assets"></th:block>
+    <title>User page</title>
 </head>
 <body>
-<div th:replace="fragments/header :: header"></div>
-<main class="page">
-    <h1>Моя страница</h1>
-    <dl>
-        <dt>ID</dt>
-        <dd th:text="${user.id}"></dd>
-        <dt>Имя</dt>
-        <dd th:text="${user.firstName}"></dd>
-        <dt>Фамилия</dt>
-        <dd th:text="${user.lastName}"></dd>
-        <dt>Email</dt>
-        <dd th:text="${user.email}"></dd>
-        <dt>Логин</dt>
-        <dd th:text="${user.username}"></dd>
-        <dt>Роли</dt>
-        <dd>
-            <span th:each="role, iter : ${user.roles}">
-                <span th:text="${role.shortName}"></span><span th:if="${!iter.last}">, </span>
-            </span>
-        </dd>
-    </dl>
-</main>
+<div th:replace="fragments/header :: navbar"></div>
+<div class="d-flex">
+    <div th:replace="fragments/header :: sidebar(active='user')"></div>
+    <main class="content flex-grow-1">
+        <h1>User information-page</h1>
+        <div class="border bg-white">
+            <div class="panel-heading">About user</div>
+            <div class="p-3">
+                <table class="table table-striped text-center mb-0">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Age</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td th:text="${user.id}"></td>
+                        <td th:text="${user.firstName}"></td>
+                        <td th:text="${user.lastName}"></td>
+                        <td th:text="${user.age}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td th:text="${user.rolesAsString}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
 </body>
 </html>

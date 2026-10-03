@@ -31,8 +31,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User findByUsername(String username) {
-        return entityManager.createQuery("select u from User u where u.username = :username", User.class)
-                .setParameter("username", username)
+        return entityManager.createQuery("select u from User u where u.email = :email", User.class)
+                .setParameter("email", username)
                 .getResultStream()
                 .findFirst()
                 .orElse(null);

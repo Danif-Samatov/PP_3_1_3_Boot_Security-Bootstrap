@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Доступ запрещён</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <th:block th:replace="fragments/header :: assets"></th:block>
+    <title>Access denied</title>
 </head>
 <body>
-<div th:replace="fragments/header :: header"></div>
-<main class="page">
-    <h1>Доступ запрещён</h1>
-    <p>У вашей роли нет прав на эту страницу.</p>
+<div th:replace="fragments/header :: navbar"></div>
+<main class="content">
+    <h1>Access denied</h1>
+    <p>You do not have permission to open this page.</p>
 </main>
 </body>
 </html>

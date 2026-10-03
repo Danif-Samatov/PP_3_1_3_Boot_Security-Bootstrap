@@ -2,17 +2,40 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
-<nav th:fragment="header">
-    <a th:href="@{/}">Главная</a>
-    <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin}">Админ</a>
-    <a sec:authorize="hasAnyRole('ADMIN', 'USER')" th:href="@{/user}">Моя страница</a>
-    <a sec:authorize="isAnonymous()" th:href="@{/login}">Войти</a>
-    <span class="who" sec:authorize="isAuthenticated()">
-        <span sec:authentication="name"></span>
+
+<th:block th:fragment="assets">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</th:block>
+
+<nav th:fragment="navbar" class="navbar navbar-dark bg-dark px-3">
+    <span class="navbar-text text-white font-weight-bold m-0 py-0">
+        <span sec:authentication="name"></span> with roles:
+        <span th:text="${#authentication.principal.rolesAsString}"></span>
     </span>
-    <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
-        <button type="submit">Выйти</button>
+    <form class="m-0" th:action="@{/logout}" method="post">
+        <button class="btn btn-link logout-btn" type="submit">Logout</button>
     </form>
 </nav>
+
+<div th:fragment="sidebar(active)" class="sidebar">
+    <div class="nav flex-column nav-pills">
+        <a sec:authorize="hasRole('ADMIN')"
+           class="nav-link"
+           th:classappend="${active == 'admin'} ? 'active' : ''"
+           th:href="@{/admin}">Admin</a>
+        <a class="nav-link"
+           th:classappend="${active == 'user'} ? 'active' : ''"
+           th:href="@{/user}">User</a>
+    </div>
+</div>
+
+<th:block th:fragment="scripts">
+    <script th:src="@{/vendor/jquery-slim.min.js}"></script>
+    <script th:src="@{/vendor/bootstrap.bundle.min.js}"></script>
+</th:block>
+
 </body>
 </html>

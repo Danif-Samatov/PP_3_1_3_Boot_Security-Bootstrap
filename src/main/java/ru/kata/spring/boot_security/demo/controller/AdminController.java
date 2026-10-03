@@ -34,15 +34,16 @@ public class AdminController {
     @PostMapping("/add")
     public String addUser(@RequestParam("firstName") String firstName,
                           @RequestParam("lastName") String lastName,
+                          @RequestParam("age") Integer age,
                           @RequestParam("email") String email,
-                          @RequestParam("username") String username,
                           @RequestParam("password") String password,
                           @RequestParam(value = "roleIds", required = false) List<Long> roleIds,
                           RedirectAttributes redirectAttributes) {
         try {
-            userService.add(firstName.trim(), lastName.trim(), email.trim(), username.trim(), password, roleIds);
+            userService.add(firstName.trim(), lastName.trim(), age, email.trim(), password, roleIds);
         } catch (IllegalArgumentException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
+            redirectAttributes.addFlashAttribute("activeTab", "new");
         }
         return "redirect:/admin";
     }
@@ -51,13 +52,13 @@ public class AdminController {
     public String updateUser(@RequestParam("id") Long id,
                              @RequestParam("firstName") String firstName,
                              @RequestParam("lastName") String lastName,
+                             @RequestParam("age") Integer age,
                              @RequestParam("email") String email,
-                             @RequestParam("username") String username,
                              @RequestParam(value = "password", required = false) String password,
                              @RequestParam(value = "roleIds", required = false) List<Long> roleIds,
                              RedirectAttributes redirectAttributes) {
         try {
-            userService.update(id, firstName.trim(), lastName.trim(), email.trim(), username.trim(), password, roleIds);
+            userService.update(id, firstName.trim(), lastName.trim(), age, email.trim(), password, roleIds);
         } catch (IllegalArgumentException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }

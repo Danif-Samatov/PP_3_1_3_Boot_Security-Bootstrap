@@ -32,15 +32,24 @@ public class DataInitializer implements ApplicationRunner {
         Role adminRole = getOrCreate("ROLE_ADMIN");
         Role userRole = getOrCreate("ROLE_USER");
 
-        if (userDao.findByUsername("admin") == null) {
-            User admin = new User("Admin", "Adminov", "admin@mail.ru", "admin", passwordEncoder.encode("admin"));
-            admin.setRoles(new HashSet<>(Set.of(adminRole, userRole)));
-            userDao.add(admin);
-        }
-        if (userDao.findByUsername("user") == null) {
-            User user = new User("User", "Userov", "user@mail.ru", "user", passwordEncoder.encode("user"));
-            user.setRoles(new HashSet<>(Set.of(userRole)));
+        ensureUser("admin", "admin", 35, "admin@mail.ru", "admin",
+                new HashSet<>(Set.of(adminRole, userRole)));
+        ensureUser("user", "user", 30, "user@mail.ru", "user",
+                new HashSet<>(Set.of(userRole)));
+    }
+
+    private void ensureUser(String firstName, String lastName, int age, String email, String rawPassword, Set<Role> roles) {
+        User user = userDao.findByUsername(email);
+        if (user == null) {
+            user = new User(firstName, lastName, age, email, passwordEncoder.encode(rawPassword));
+            user.setRoles(roles);
             userDao.add(user);
+            return;
+        }
+        if (user.getAge() == null) {
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setAge(age);
         }
     }
 

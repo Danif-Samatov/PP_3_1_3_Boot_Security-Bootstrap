@@ -5,7 +5,7 @@ import ru.kata.spring.boot_security.demo.model.User;
 import java.util.List;
 
 public interface UserService {
-    void add(String firstName, String lastName, String email, String username, String rawPassword, List<Long> roleIds);
+    void add(String firstName, String lastName, Integer age, String email, String rawPassword, List<Long> roleIds);
 
     List<User> listUsers();
 
@@ -13,7 +13,7 @@ public interface UserService {
 
     User findByUsername(String username);
 
-    void update(Long id, String firstName, String lastName, String email, String username, String rawPassword, List<Long> roleIds);
+    void update(Long id, String firstName, String lastName, Integer age, String email, String rawPassword, List<Long> roleIds);
 
     void delete(Long id);
 }
