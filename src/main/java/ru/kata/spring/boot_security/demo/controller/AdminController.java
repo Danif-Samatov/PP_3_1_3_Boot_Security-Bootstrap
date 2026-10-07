@@ -3,10 +3,11 @@ package ru.kata.spring.boot_security.demo.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
@@ -32,36 +33,16 @@ public class AdminController {
     }
 
     @PostMapping("/add")
-    public String addUser(@RequestParam("firstName") String firstName,
-                          @RequestParam("lastName") String lastName,
-                          @RequestParam("age") Integer age,
-                          @RequestParam("email") String email,
-                          @RequestParam("password") String password,
-                          @RequestParam(value = "roleIds", required = false) List<Long> roleIds,
-                          RedirectAttributes redirectAttributes) {
-        try {
-            userService.add(firstName.trim(), lastName.trim(), age, email.trim(), password, roleIds);
-        } catch (IllegalArgumentException e) {
-            redirectAttributes.addFlashAttribute("error", e.getMessage());
-            redirectAttributes.addFlashAttribute("activeTab", "new");
-        }
+    public String addUser(@ModelAttribute User user,
+                          @RequestParam(value = "roleIds", required = false) List<Long> roleIds) {
+        userService.add(user, roleIds);
         return "redirect:/admin";
     }
 
     @PostMapping("/update")
-    public String updateUser(@RequestParam("id") Long id,
-                             @RequestParam("firstName") String firstName,
-                             @RequestParam("lastName") String lastName,
-                             @RequestParam("age") Integer age,
-                             @RequestParam("email") String email,
-                             @RequestParam(value = "password", required = false) String password,
-                             @RequestParam(value = "roleIds", required = false) List<Long> roleIds,
-                             RedirectAttributes redirectAttributes) {
-        try {
-            userService.update(id, firstName.trim(), lastName.trim(), age, email.trim(), password, roleIds);
-        } catch (IllegalArgumentException e) {
-            redirectAttributes.addFlashAttribute("error", e.getMessage());
-        }
+    public String updateUser(@ModelAttribute User user,
+                             @RequestParam(value = "roleIds", required = false) List<Long> roleIds) {
+        userService.update(user, roleIds);
         return "redirect:/admin";
     }
 

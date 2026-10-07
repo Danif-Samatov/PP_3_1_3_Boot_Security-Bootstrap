@@ -21,15 +21,6 @@ public class RoleDaoImpl implements RoleDao {
     }
 
     @Override
-    public Role findByName(String name) {
-        return entityManager.createQuery("select r from Role r where r.name = :name", Role.class)
-                .setParameter("name", name)
-                .getResultStream()
-                .findFirst()
-                .orElse(null);
-    }
-
-    @Override
     public List<Role> findByIds(Collection<Long> ids) {
         if (ids == null || ids.isEmpty()) {
             return Collections.emptyList();

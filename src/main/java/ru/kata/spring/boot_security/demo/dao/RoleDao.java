@@ -8,8 +8,6 @@ import java.util.List;
 public interface RoleDao {
     void save(Role role);
 
-    Role findByName(String name);
-
     List<Role> findByIds(Collection<Long> ids);
 
     List<Role> listRoles();

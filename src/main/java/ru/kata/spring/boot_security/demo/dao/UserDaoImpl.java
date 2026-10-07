@@ -20,7 +20,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> listUsers() {
-        return entityManager.createQuery("select u from User u order by u.id", User.class)
+        return entityManager.createQuery(
+                        "select distinct u from User u left join fetch u.roles order by u.id", User.class)
                 .getResultList();
     }
 
@@ -31,16 +32,12 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User findByUsername(String username) {
-        return entityManager.createQuery("select u from User u where u.email = :email", User.class)
+        return entityManager.createQuery(
+                        "select distinct u from User u left join fetch u.roles where u.email = :email", User.class)
                 .setParameter("email", username)
                 .getResultStream()
                 .findFirst()
                 .orElse(null);
-    }
-
-    @Override
-    public void update(User user) {
-        entityManager.merge(user);
     }
 
     @Override
